@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public Transform orientation;
     [SerializeField] private Transform playerCamera;
+    public Weapon currentWeapon;
 
     float horizontalInput;
     float verticalInput;
@@ -41,14 +42,14 @@ public class PlayerController : MonoBehaviour
 
         // Control drag (so the player doesn't feel like they are sliding on ice)
         if (isGrounded)
-            rb.linearDamping = groundDrag; // Note: In older Unity versions, use rb.drag
+            rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0; // No drag in the air so recoil pushes you perfectly
 
         // Apply recoil when the player presses the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            ApplyRecoil();
+            ApplyRecoil(currentWeapon.recoilForce);
         }
 
         // Handle jumping
@@ -60,6 +61,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Check if player is grounded to reload weapon
+        if (isGrounded)
+        {
+            currentWeapon.ReloadWeapon();
+        }
         // Calculate movement relative to the direction the orientation is facing
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -87,8 +93,18 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void ApplyRecoil()
+    public void ApplyRecoil(float recoilForce)
     {
+        // Don't allow the player to use weapon if they are out of ammo
+        if (currentWeapon.ammoCount <= 0)
+        {
+            return;
+        }
+        // If a weapon has no recoil force, don't apply any recoil
+        else if (currentWeapon.recoilForce <= 0)
+        {
+            return;
+        }
         // Apply a force in the opposite direction of the camera vector to allow the player to move opposite to the direction they are facing when shooting
         // Calculate the recoil direction based on the orientation's vector to allow vertical and horizontal recoil
         Vector3 cameraForward = playerCamera.forward;
@@ -99,7 +115,8 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         }
         // Apply the recoil force to the Rigidbody
-        rb.AddForce(recoilDirection * 5f, ForceMode.Impulse);
+        rb.AddForce(recoilDirection * recoilForce, ForceMode.Impulse);
+        currentWeapon.ammoCount--;
 
 
     }
