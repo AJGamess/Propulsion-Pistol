@@ -273,3 +273,4 @@ MonoBehaviour:
   recoilForce: 2
   maxAmmoCount: 6
   ammoCount: 6
+  shotCooldown: 0.2
