@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject gameUI;
-    [SerializeField] private GameObject timerText;
+    [SerializeField] private TMP_Text timerText;
 
     GameState currentGameState = GameState.Playing;
     float timer = 0f;

@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 334528545}
   - component: {fileID: 334528544}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -793,8 +793,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   pauseMenuUI: {fileID: 0}
   mainMenuUI: {fileID: 0}
-  gameUI: {fileID: 0}
-  timerText: {fileID: 0}
+  gameUI: {fileID: 334528543}
+  timerText: {fileID: 859835237}
 --- !u!4 &1762186271
 Transform:
   m_ObjectHideFlags: 0
@@ -2390,6 +2390,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7652832905726990024, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
       propertyPath: currentWeapon
+      value: 
+      objectReference: {fileID: 4979173872076991487, guid: 6c26e1c23f1f78848a632220fe038c5b, type: 3}
+    - target: {fileID: 7652832905726990024, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
+      propertyPath: Weapons.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7652832905726990024, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
+      propertyPath: 'Weapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2532451119877588229, guid: 29f93a70616db9e40bf8759a6cfdbb3e, type: 3}
+    - target: {fileID: 7652832905726990024, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
+      propertyPath: 'Weapons.Array.data[1]'
       value: 
       objectReference: {fileID: 4979173872076991487, guid: 6c26e1c23f1f78848a632220fe038c5b, type: 3}
     m_RemovedComponents: []

@@ -270,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7182398b1f157784dbf2a1fa3ec4405d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  weaponName: Pistol
   recoilForce: 2
   maxAmmoCount: 6
   ammoCount: 6

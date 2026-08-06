@@ -15,7 +15,11 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public Transform orientation;
     [SerializeField] private Transform playerCamera;
-    public Weapon currentWeapon;
+
+    [Header("Weapon")]
+    [SerializeField] private Weapon[] Weapons;
+    private Weapon currentWeapon;
+    private Transform weaponHolder;
 
     float horizontalInput;
     float verticalInput;
@@ -29,6 +33,16 @@ public class PlayerController : MonoBehaviour
 
         // This stops the capsule from falling over when moving
         rb.freezeRotation = true;
+
+        // Set the current weapon to the first weapon in the array
+        if (Weapons.Length > 0)
+        {
+            currentWeapon = Weapons[0];
+        }
+        else
+        {
+            Debug.LogError("No weapons assigned to the PlayerController.");
+        }
     }
 
     void Update()
@@ -127,4 +141,8 @@ public class PlayerController : MonoBehaviour
         // Apply an upward force to the Rigidbody to make the player jump
         rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
     }
+
+
+
+    
 }
