@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 // Handle gameplay logic
+                Timer();
                 // When Player presses the reset button, reset the level
                 if (Input.GetKeyDown(KeyCode.R))
                 {
@@ -74,6 +75,8 @@ public class GameManager : MonoBehaviour
     {
         //Create a timer that counts up in seconds and miliseconds and displays it on the screen with a UI Text element
         timer += Time.deltaTime;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
+        timerText.text = string.Format("{0:D2}:{1:D2}:{2:D3}", timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds);
 
     }
 }

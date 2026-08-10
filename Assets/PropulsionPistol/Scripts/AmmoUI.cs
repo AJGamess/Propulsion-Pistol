@@ -3,19 +3,32 @@ using TMPro;
 
 public class AmmoUI : MonoBehaviour
 {
-    private TMP_Text ammoText;
-    private TMP_Text weaponNameText;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private TMP_Text ammoText;
+    [SerializeField] private TMP_Text weaponNameText;
+
+    private void OnEnable()
     {
-        
+        // Listen for the event when the script activates
+        Weapon.OnAmmoCountChanged += UpdateUI;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        // Update the ammo count and weapon name in the UI
-        ammoText.text = "Ammo: " + FindAnyObjectByType<Weapon>().ammoCount + " / " + FindAnyObjectByType<Weapon>().maxAmmoCount;
-        weaponNameText.text = "Weapon: " + FindAnyObjectByType<Weapon>().weaponName;
+        // Stop listening if the object is disabled
+        Weapon.OnAmmoCountChanged -= UpdateUI;
+    }
+
+    // This function automatically runs ONLY when a gun shoots, reloads, or equips!
+    private void UpdateUI(string weaponName, int currentAmmo, int maxAmmo)
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = "Ammo: " + currentAmmo + " / " + maxAmmo;
+        }
+
+        if (weaponNameText != null)
+        {
+            weaponNameText.text = "Weapon: " + weaponName;
+        }
     }
 }

@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         if (Weapons.Length > 0)
         {
             currentWeapon = Weapons[0];
+            currentWeapon.Equip();
         }
         else
         {
@@ -49,6 +50,12 @@ public class PlayerController : MonoBehaviour
     {
         // Check if we are touching the ground
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
+        // Check if player is grounded to reload weapon
+        if (isGrounded && currentWeapon != null)
+        {
+            currentWeapon.ReloadWeapon();
+        }
 
         // Get keyboard inputs (WASD / Arrow Keys)
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -71,15 +78,13 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+
+        // Handle weapon swapping
+        SwapWeapons();
     }
 
     void FixedUpdate()
     {
-        // Check if player is grounded to reload weapon
-        if (isGrounded)
-        {
-            currentWeapon.ReloadWeapon();
-        }
         // Calculate movement relative to the direction the orientation is facing
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -109,13 +114,8 @@ public class PlayerController : MonoBehaviour
     }
     public void ApplyRecoil(float recoilForce)
     {
-        // Don't allow the player to use weapon if they are out of ammo
-        if (currentWeapon.ammoCount <= 0)
-        {
-            return;
-        }
-        // If a weapon has no recoil force, don't apply any recoil
-        else if (currentWeapon.recoilForce <= 0)
+        // Don't allow the player to use weapon if they fail the weapon check
+        if (currentWeapon == null || currentWeapon.TryShootWeapon() == false)
         {
             return;
         }
@@ -130,9 +130,6 @@ public class PlayerController : MonoBehaviour
         }
         // Apply the recoil force to the Rigidbody
         rb.AddForce(recoilDirection * recoilForce, ForceMode.Impulse);
-        currentWeapon.ammoCount--;
-
-
     }
     private void Jump()
     {
@@ -142,7 +139,17 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
     }
 
-
-
-    
+    private void SwapWeapons()
+    {
+        // This method can be called to swap between weapons in the Weapons array
+        // For example, you can use the number keys to swap weapons
+        if (Input.GetKeyDown(KeyCode.Alpha1) && Weapons.Length > 0)
+        {
+            currentWeapon = Weapons[0];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && Weapons.Length > 1)
+        {
+            currentWeapon = Weapons[1];
+        }
+    }
 }
