@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         GameOver
     }
 
-    void ResetLevel()
+    public void ResetLevel()
     {
         // Reload the current scene
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);

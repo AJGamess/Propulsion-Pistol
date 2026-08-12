@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon")]
     [SerializeField] private Weapon[] Weapons;
     private Weapon currentWeapon;
-    private Transform weaponHolder;
+    [SerializeField] private Transform weaponHolder;
 
     float horizontalInput;
     float verticalInput;
@@ -146,10 +146,36 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && Weapons.Length > 0)
         {
             currentWeapon = Weapons[0];
+            currentWeapon.Equip();
+            //swap models in the weapon holder
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && Weapons.Length > 1)
         {
             currentWeapon = Weapons[1];
+            currentWeapon.Equip();
+            //swap models in the weapon holder
+        }
+    }
+    // Method for handling player hitting a wall or obstacle that causes death (e.g., falling off the map, hitting a deadly obstacle)
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Check if the object we hit is on the "Death" layer
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Death"))
+        {
+            TriggerLevelReset();
+        }
+    }
+
+    private void TriggerLevelReset()
+    {
+        GameManager gameManager = FindAnyObjectByType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.ResetLevel();
+        }
+        else
+        {
+            Debug.LogError("GameManager not found in the scene.");
         }
     }
 }

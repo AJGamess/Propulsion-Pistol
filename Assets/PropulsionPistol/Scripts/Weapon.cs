@@ -1,4 +1,5 @@
 using TMPro;
+using System;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -9,10 +10,16 @@ public class Weapon : MonoBehaviour
     public int maxAmmoCount = 3;
     public int ammoCount = 3;
     public float shotCooldown = 0.5f;
-    public float nextShotTime = 0f;
+    [NonSerialized] private float nextShotTime = 0f;
 
     // Static event that the AmmoUI can subscribe to for ammo count changes
     public static event System.Action<string, int, int> OnAmmoCountChanged;
+
+    void Start()
+    {
+        // Reset nextShotTime when the weapon is initialized to prevent cooldown issues on first shot
+        nextShotTime = 0f;
+    }
 
 
     public void Equip()

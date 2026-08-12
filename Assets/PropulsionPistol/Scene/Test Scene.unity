@@ -376,6 +376,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AmmoUI
   ammoText: {fileID: 59872784}
   weaponNameText: {fileID: 1072537681}
+--- !u!4 &524965180 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5793494623483887041, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
+  m_PrefabInstance: {fileID: 4537090285226177018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &581186112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,6 +2408,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7652832905726990024, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
+      propertyPath: weaponHolder
+      value: 
+      objectReference: {fileID: 524965180}
     - target: {fileID: 7652832905726990024, guid: c1bb28d161e0bf444b17b1cf2636b308, type: 3}
       propertyPath: currentWeapon
       value: 

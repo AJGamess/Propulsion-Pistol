@@ -271,7 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   weaponName: Pistol
-  recoilForce: 2
+  recoilForce: 6
   maxAmmoCount: 6
   ammoCount: 6
   shotCooldown: 0.2
+  nextShotTime: 0

@@ -159,10 +159,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   weaponName: Shotgun
-  recoilForce: 8
+  recoilForce: 12
   maxAmmoCount: 4
   ammoCount: 4
   shotCooldown: 1
+  nextShotTime: 0
 --- !u!1 &7452130733078866430
 GameObject:
   m_ObjectHideFlags: 0
