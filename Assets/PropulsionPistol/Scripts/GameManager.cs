@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("UI Elements")]
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject gameUI;
     [SerializeField] private TMP_Text timerText;
 
-    GameState currentGameState = GameState.Playing;
-    float timer = 0f;
+    [Header("Timer Elements")]
+    private bool isTimerRunning = true;
+    private float timer = 0f;
+
+    [Header("Level Complete References")]
+    [SerializeField] private GameObject levelCompleteUI;
+    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject victoryCamera;
+
+    [HideInInspector] public GameState currentGameState = GameState.Playing;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -50,19 +59,20 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 1f; // Resume the game
                 }
                 break;
-            case GameState.GameOver:
+            case GameState.LevelComplete:
                 // Handle game over logic
+                LevelComplete();
                 break;
         }
-        
+
     }
 
-    enum GameState
+    public enum GameState
     {
         MainMenu,
         Playing,
         Paused,
-        GameOver
+        LevelComplete
     }
 
     public void ResetLevel()
@@ -74,9 +84,40 @@ public class GameManager : MonoBehaviour
     void Timer()
     {
         //Create a timer that counts up in seconds and miliseconds and displays it on the screen with a UI Text element
-        timer += Time.deltaTime;
-        TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
-        timerText.text = string.Format("{0:D2}:{1:D2}:{2:D3}", timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds);
+        if (isTimerRunning)
+        {
+            timer += Time.deltaTime;
+            TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
+            timerText.text = string.Format("{0:D2}:{1:D2}:{2:D3}", timeSpan.Minutes, timeSpan.Seconds, timeSpan.Milliseconds);
+        }
+    }
 
+    public void LevelComplete()
+    {
+        isTimerRunning = false;
+        Debug.Log("Level Complete in: " + timerText.text);
+
+        // Disable the player camera and enable the victory camera
+        if (playerCamera != null && victoryCamera != null)
+        {
+            playerCamera.SetActive(false);
+            victoryCamera.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Player Camera or Victory Camera is not assigned in the GameManager.");
+        }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (levelCompleteUI != null)
+        {
+            levelCompleteUI.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Level Complete UI is not assigned in the GameManager.");
+        }
     }
 }
